@@ -19,6 +19,12 @@ export default function vitePluginCSP(
     },
     async generateBundle() {
       if (config && localise) {
+        /**
+         * TODO:
+         * Check if we have the file in the build directory already
+         * If we do we hash it and do a fetch to the CDN, and if the hash is different we write the new file
+         * If we don't have the file we fetch it and write it
+         */
         try {
           const response = await fetch(FINGERPRINT_URL);
           if (!response.ok) {
