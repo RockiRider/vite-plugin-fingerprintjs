@@ -1,10 +1,10 @@
 {
-  "name": "package-template",
+  "name": "vite-plugin-fingerprintjs",
   "version": "1.1.1",
   "author": {
     "name": "Tsotne Gvadzabia"
   },
-  "description": "A Vite plugin",
+  "description": "A Vite plugin for integrating with fingerprintjs",
   "scripts": {
     "build": "rollup -c",
     "test": "vitest"
@@ -12,11 +12,11 @@
   "homepage": "url to something",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RockiRider/vite-",
-    "directory": "packages/package-template"
+    "url": "git+https://github.com/RockiRider/vite-plugin-fingerprintjs",
+    "directory": "packages/vite-plugin-fingerprintjs"
   },
   "bugs": {
-    "url": "https://github.com/RockiRider/csp/issues"
+    "url": "https://github.com/RockiRider/vite-plugin-fingerprintjs/issues"
   },
   "license": "GPL-3.0-only",
   "main": "dist/index.js",

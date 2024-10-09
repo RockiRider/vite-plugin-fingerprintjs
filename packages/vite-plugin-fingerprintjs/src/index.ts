@@ -9,7 +9,7 @@ export default function vitePluginCSP(
   let server: ViteDevServer | undefined = undefined;
 
   return {
-    name: "package-template",
+    name: "vite-plugin-fingerprintjs",
     enforce: "post",
     buildStart() {
       pluginContext = this;
@@ -27,7 +27,7 @@ export default function vitePluginCSP(
       return false;
     },
     onLog(_level, log) {
-      if (log.plugin === "package-template") {
+      if (log.plugin === "vite-plugin-fingerprintjs") {
         this.warn(log);
       }
     },
