@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     fingerprint({
-      localise: true,
+      useLocalScript: true,
     }),
   ],
 });

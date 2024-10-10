@@ -1,15 +1,14 @@
 import { Plugin, ResolvedConfig } from "vite";
 import { MyPluginOptions } from "./types";
 import { FINGERPRINT_URL } from "./constants";
-import fs from "fs";
-import path from "path";
+import { fetchAndUpdateFile } from "./fetchAndUpdateFile";
 
 export default function vitePluginCSP(
   options: MyPluginOptions | undefined = {}
 ): Plugin {
   let config: ResolvedConfig | undefined = undefined;
 
-  const { localise = false } = options;
+  const { useLocalScript = false } = options;
 
   return {
     name: "vite-plugin-fingerprintjs",
@@ -18,41 +17,25 @@ export default function vitePluginCSP(
       config = resolvedConfig;
     },
     async generateBundle() {
-      if (config && localise) {
-        /**
-         * TODO:
-         * Check if we have the file in the build directory already
-         * If we do we hash it and do a fetch to the CDN, and if the hash is different we write the new file
-         * If we don't have the file we fetch it and write it
-         */
-        try {
-          const response = await fetch(FINGERPRINT_URL);
-          if (!response.ok) {
-            throw new Error(
-              `Failed to fetch ${FINGERPRINT_URL}: ${response.statusText}`
-            );
-          }
-          const content = await response.text();
-
-          const outputPath = path.resolve(
-            config.root,
-            config.build.outDir,
-            "finger.js"
-          );
-          fs.writeFileSync(outputPath, content);
-          console.log(`File written to ${outputPath}`);
-        } catch (error: any) {
-          console.error(`Error fetching and writing file: ${error.message}`);
-        }
+      if (config && useLocalScript) {
+        await fetchAndUpdateFile(config, useLocalScript, false);
       }
+    },
+    async configureServer(server) {
+      if (config && useLocalScript) {
+        await fetchAndUpdateFile(config, useLocalScript, true);
+      }
+
+      server.middlewares.use((req, res, next) => {
+        // You can add additional middleware here if needed
+        next();
+      });
     },
     transformIndexHtml(html) {
       const script = `
 <script>
-  const fpPromise = import('${localise ? "/finger.js" : FINGERPRINT_URL}')
+  const fpPromise = import('${useLocalScript ? "/finger.js" : FINGERPRINT_URL}')
     .then(FingerprintJS => FingerprintJS.load());
-
-  // Get the visitor identifier when you need it.
   fpPromise
     .then(fp => fp.get())
     .then(result => {
