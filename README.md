@@ -1,17 +1,5 @@
-# Template for Creating Packages
+# Vite Plugin FingerprintJS
 
-### Getting started with this template
+This is a monorepo for integrating FingerprintJS with Vite. It sits on top of the [official FingerprintJS package](https://www.npmjs.com/package/@fingerprintjs/fingerprintjs).
 
-1. Clone this repository
-
-2. Run `pnpm install` to install the dependencies
-
-3. Search and replace `package-template` with your package name
-
-4. Update the `package.json` with your package details
-
-5. Update `theme.config.jsx` & `next-sitemap.config.js` with your package details
-
-6. Run `pnpm install` to fix lockfile
-
-7. Start building your vite package
+Find the package here: [vite-plugin-fingerprintjs](/packages/vite-plugin-fingerprintjs/README.md).
